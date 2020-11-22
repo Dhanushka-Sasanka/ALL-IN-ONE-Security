@@ -7,11 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="spring-boot-rest-services" />
         <module name="spring-security-jpa" />
         <module name="spring-security-jwt" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="spring-boot-rest-services" target="1.8" />
       <module name="spring-security-jpa" target="1.8" />
       <module name="spring-security-jwt" target="1.8" />
       <module name="spring-security-jwt (1) (com.example)" target="1.8" />
