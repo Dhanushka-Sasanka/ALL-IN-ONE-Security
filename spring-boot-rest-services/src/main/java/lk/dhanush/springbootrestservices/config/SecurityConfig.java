@@ -7,12 +7,15 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 
 
     @Autowired
@@ -25,19 +28,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.httpBasic().and().authorizeRequests()
                 .antMatchers("/api/admin").hasRole("ADMIN")
-                .antMatchers("/api/student").hasRole("ADMIN")
+                .antMatchers("/api/students").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER","ADMIN")
+//                .antMatchers("/api/admin").permitAll()
+//                .antMatchers("/api/students").permitAll()
+//                .antMatchers("/user").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .formLogin().and().csrf().disable();
     }
 
     @Bean
     public PasswordEncoder getPasswordEncorder(){
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
+
     }
 
 
